@@ -1,22 +1,14 @@
-# the different stages of this Dockerfile are meant to be built into separate images
-# https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
-# https://docs.docker.com/compose/compose-file/#target
-
-
-# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG PHP_VERSION=8.0
 ARG NGINX_VERSION=1.17
 ARG ALPINE_VERSION=3.13
+ARG TZ=Europe/Warsaw
 
-
-# "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS php
 
 #timezone
 RUN apk add --no-cache tzdata
-ENV TZ=Europe/Warsaw
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
+RUN printf '[PHP]\ndate.timezone = "${TZ}"\n' > /$PHP_INI_DIR/conf.d/tzone.ini
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -55,6 +47,14 @@ RUN set -eux; \
 		opcache \
 	;
 
+COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
+
+COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
 WORKDIR /srv
 
 ARG APP_ENV=prod
@@ -68,24 +68,15 @@ COPY config config/
 COPY public public/
 COPY src src/
 
-# download vendors
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install
-
-RUN mkdir -p var
-RUN chmod -R 777 var
-RUN chmod +x bin/console
+RUN mkdir -p var vendor
+RUN chown -R www-data:www-data .
+RUN chown -R www-data:www-data /usr/local/etc/php
 VOLUME /srv/var
 
-COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
-RUN chmod +x /usr/local/bin/docker-healthcheck
+USER www-data
 
-HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
-
-COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-RUN chmod +x /usr/local/bin/docker-entrypoint
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
