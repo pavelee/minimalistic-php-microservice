@@ -3,7 +3,7 @@
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
 -   [Extend your microservice](#extend-your-microservice)
-    - [NoSQL Database - MongoDB](#nosql-database---mongodb)
+    -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
 
 ## What is it?
 
@@ -58,4 +58,11 @@ composer require doctrine/mongodb-odm-bundle
 ```
 MONGODB_URL=mongodb://mongo
 MONGODB_DB=yourdbname
+```
+
+5. Add options with creditentials in config/packages/doctrine_mongodb.yaml
+```
+options:
+    username: '%env(resolve:MONGO_INITDB_ROOT_USERNAME)%'
+    password: '%env(resolve:MONGO_INITDB_ROOT_PASSWORD)%'
 ```
