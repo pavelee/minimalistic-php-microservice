@@ -13,7 +13,7 @@ services:
             start_period: 30s
         volumes:
             - ./api/src:/srv/src:rw,cached
-            - ./docker/php/conf.d/dev.ini/:/usr/local/etc/php/conf.d/php.ini
+            - ./api/docker/php/conf.d/dev.ini/:/usr/local/etc/php/conf.d/php.ini
 
     nginx:
         container_name: 'nginx'
