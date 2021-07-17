@@ -4,7 +4,7 @@ services:
     php:
         container_name: 'php'
         build:
-            context: ./
+            context: ./api
             target: php
         healthcheck:
             interval: 10s
@@ -12,18 +12,18 @@ services:
             retries: 3
             start_period: 30s
         volumes:
-            - ./src:/srv/src:rw,cached
+            - ./api/src:/srv/src:rw,cached
             - ./docker/php/conf.d/dev.ini/:/usr/local/etc/php/conf.d/php.ini
 
     nginx:
         container_name: 'nginx'
         build:
-            context: ./
+            context: ./api
             target: nginx
         depends_on:
             - php
         volumes:
-            - ./public:/srv/public:ro
+            - ./api/public:/srv/public:ro
         ports:
             - target: 80
               published: 3001
