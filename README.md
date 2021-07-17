@@ -9,7 +9,7 @@
 
 This is minimalistic microservice based on PHP. The idea is to fit any requiremnts, just start from minimum and add extra neccessary packaged
 
-## Minimalistic Project Stack
+## Simple Project Stack
 
 -   PHP8
 -   Symfony 5.3
