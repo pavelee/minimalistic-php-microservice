@@ -7,7 +7,7 @@
 
 ## What is it?
 
-This is minimalistic microservice based on PHP. The idea is to fit any requiremnts, just start from minimum and add extra neccessary packaged
+This is minimalistic microservice based on PHP. The idea is to fit any requiremnts, just start from minimum and fill it with neccessary packages
 
 ## Simple Project Stack
 
