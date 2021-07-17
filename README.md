@@ -3,7 +3,7 @@
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
 -   [Extend your microservice](#extend-your-microservice)
-    - [NoSQL Database - MongoDB](#nosql-database-mongoDB)
+    - [NoSQL Database - MongoDB](#nosql-database---mongodb)
 
 ## What is it?
 
