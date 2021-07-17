@@ -2,7 +2,7 @@ version: "3"
 
 services:
     php:
-        container_name: 'php'
+        container_name: "php"
         build:
             context: ./api
             target: php
@@ -12,11 +12,11 @@ services:
             retries: 3
             start_period: 30s
         volumes:
-            - ./api/src:/srv/src:rw,cached
+            - ./api:/srv:rw,cached
             - ./api/docker/php/conf.d/dev.ini/:/usr/local/etc/php/conf.d/php.ini
 
     nginx:
-        container_name: 'nginx'
+        container_name: "nginx"
         build:
             context: ./api
             target: nginx
