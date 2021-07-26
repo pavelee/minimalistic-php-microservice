@@ -1,14 +1,15 @@
 ARG PHP_VERSION=8.0
 ARG NGINX_VERSION=1.17
 ARG ALPINE_VERSION=3.13
-ARG TZ=Europe/Warsaw
 
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS php
 
 #timezone
+ENV TZ=Europe/Warsaw
 RUN apk add --no-cache tzdata
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
-RUN printf '[PHP]\ndate.timezone = "${TZ}"\n' > /$PHP_INI_DIR/conf.d/tzone.ini
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini
+
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -75,13 +76,15 @@ VOLUME /srv/var
 
 USER www-data
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 RUN composer install
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 FROM php AS php_prod
+
+RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --optimize-autoloader
 
 # do not use .env files in production
 RUN composer dump-env prod; \
