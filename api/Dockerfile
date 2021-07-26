@@ -75,6 +75,7 @@ COPY src src/
 RUN mkdir -p var vendor
 RUN chown -R www-data:www-data .
 RUN chown -R www-data:www-data /usr/local/etc/php
+RUN chmod -R +x bin
 VOLUME /srv/var
 
 USER www-data
