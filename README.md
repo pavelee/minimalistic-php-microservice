@@ -3,6 +3,7 @@
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
 -   [Extend your microservice](#extend-your-microservice)
+    -   [Unit Testing - PHPUnit](#unit-testing---phpunit)
     -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
 
 ## What is it?
@@ -16,6 +17,22 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 -   Docker
 
 ## Extend your microservice
+
+### Unit Testing - PHPUnit
+
+1. Install PHPUnit and symfony dependencies
+
+```
+composer require --dev phpunit/phpunit symfony/test-pack
+```
+2. Start using PHPUnit! Just run:
+```
+./vendor/bin/phpunit
+```
+3. Read more about testing:
+
+* Symfony -> https://symfony.com/doc/current/testing.html
+* PHPUnit -> https://phpunit.readthedocs.io
 
 ### NoSQL Database - MongoDB
 
@@ -61,6 +78,7 @@ MONGODB_DB=yourdbname
 ```
 
 5. Add options with creditentials in config/packages/doctrine_mongodb.yaml
+
 ```
 options:
     username: '%env(resolve:MONGO_INITDB_ROOT_USERNAME)%'
