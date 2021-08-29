@@ -5,6 +5,7 @@
 -   [Extend your microservice](#extend-your-microservice)
     -   [Unit Testing - PHPUnit](#unit-testing---phpunit)
     -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
+    -   [Add Cron Job](#add-cron-job)
 
 ## What is it?
 
@@ -83,4 +84,23 @@ MONGODB_DB=yourdbname
 options:
     username: '%env(resolve:MONGO_INITDB_ROOT_USERNAME)%'
     password: '%env(resolve:MONGO_INITDB_ROOT_PASSWORD)%'
+```
+
+### Add Cron Job
+
+1. Add cron support in build (api/Dockerfile)
+
+```
+RUN apk add dcron libcap; \
+	touch /etc/crontabs/www-data; \
+    chown -R www-data:www-data /etc/crontabs/www-data; \
+    chown www-data:www-data /usr/sbin/crond && setcap cap_setgid=ep /usr/sbin/crond; \
+	crontab /etc/crontabs/www-data;
+```
+
+2. Add your cron jobs in api/docker/php/docker-entrypoint.sh
+```
+  echo '*  *  *  *  *    /srv/api/bin/console app:your:command' >> /etc/crontabs/www-data
+  echo $'\n' >> /etc/crontabs/www-data #required empty line on the end of cronjob
+  crond -b -l 8 # enable cron deamon
 ```
