@@ -4,6 +4,7 @@
 -   [Project Stack](#project-stack)
 -   [Extend your microservice](#extend-your-microservice)
     -   [Unit Testing - PHPUnit](#unit-testing---phpunit)
+    -   [SQL Database - Postgresql](#sql-database---posgresql)
     -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
     -   [Add Cron Job](#add-cron-job)
 
@@ -26,14 +27,84 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 ```
 composer require --dev phpunit/phpunit symfony/test-pack
 ```
+
 2. Start using PHPUnit! Just run:
+
 ```
 ./vendor/bin/phpunit
 ```
+
 3. Read more about testing:
 
-* Symfony -> https://symfony.com/doc/current/testing.html
-* PHPUnit -> https://phpunit.readthedocs.io
+-   Symfony -> https://symfony.com/doc/current/testing.html
+-   PHPUnit -> https://phpunit.readthedocs.io
+
+### SQL Database - Potsgresql
+
+1. Add Postgresql Container in docker-compose.yml
+
+```
+services:
+  postgresql:
+      image: postgres:13
+      env_file:
+          - ./api/.env
+      volumes:
+          - pg-db-data:/var/lib/postgresql/data:rw
+
+volumes:
+    pg-db-data: {}
+```
+
+2. Add Postgresql Enviorment variables in api/.env
+
+```
+POSTGRES_PASSWORD=password
+POSTGRES_USER=user
+POSTGRES_DB=db
+POSTGRES_VERSION=13
+POSTGRES_CHARSET=UTF8
+#its a name of service in docker-compose.yml
+POSTGRES_HOST=postgresql
+```
+
+3. Add dependencies in api/Dockerfile
+
+```
+RUN apk add postgresql-dev; \
+	docker-php-ext-install -j$(nproc) pdo_pgsql
+```
+
+4. Install Doctrine Bundle in Symfony
+
+```
+docker exec php composer require symfony/orm-pack
+```
+
+5. Configure connection in api/config/packages/doctrine.yaml
+
+```
+doctrine:
+    dbal:
+        user: '%env(resolve:POSTGRES_USER)%'
+        password: '%env(resolve:POSTGRES_PASSWORD)%'
+        dbname: '%env(resolve:POSTGRES_DB)%'
+        host: '%env(resolve:POSTGRES_HOST)%'
+        charset: '%env(resolve:POSTGRES_CHARSET)%'
+        server_version: '%env(resolve:POSTGRES_VERSION)%'
+        driver: 'pdo_pgsql'
+```
+
+6. Test your connection in container
+
+```
+docker exec php bin/console dbal:run-sql "SELECT 1"
+```
+
+7. Read more about Postgresql, Doctrine and Doctrine Bundle:
+* Postgresql -> https://www.postgresql.org
+* Doctrine -> https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/index.html
+* Doctrine Bundle in Symfony -> https://symfony.com/doc/current/doctrine.html
 
 ### NoSQL Database - MongoDB
 
@@ -59,7 +130,7 @@ MONGO_INITDB_ROOT_USERNAME=sfsf213fsafa
 MONGO_INITDB_ROOT_PASSWORD=fsafasr121asd
 ```
 
-2. Add dependecies in api/Dockerfile
+2. Add dependencies in api/Dockerfile
 
 ```
 RUN apk add openssl-dev && pecl install mongodb && docker-php-ext-enable mongodb
@@ -68,7 +139,7 @@ RUN apk add openssl-dev && pecl install mongodb && docker-php-ext-enable mongodb
 3. Install MongoDB Bundle in Symfony
 
 ```
-composer require doctrine/mongodb-odm-bundle
+docker exec php composer require doctrine/mongodb-odm-bundle
 ```
 
 4. Fix Enviorment Variables in api/.env
@@ -99,6 +170,7 @@ RUN apk add dcron libcap; \
 ```
 
 2. Add your cron jobs in api/docker/php/docker-entrypoint.sh
+
 ```
   echo '*  *  *  *  *    /srv/api/bin/console app:your:command' >> /etc/crontabs/www-data
   echo $'\n' >> /etc/crontabs/www-data #required empty line on the end of cronjob
