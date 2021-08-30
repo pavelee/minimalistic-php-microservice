@@ -4,7 +4,7 @@
 -   [Project Stack](#project-stack)
 -   [Extend your microservice](#extend-your-microservice)
     -   [Unit Testing - PHPUnit](#unit-testing---phpunit)
-    -   [SQL Database - Postgresql](#sql-database---posgresql)
+    -   [SQL Database - PostgreSQL](#sql-database---postgresql)
     -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
     -   [Add Cron Job](#add-cron-job)
 
@@ -39,7 +39,7 @@ composer require --dev phpunit/phpunit symfony/test-pack
 -   Symfony -> https://symfony.com/doc/current/testing.html
 -   PHPUnit -> https://phpunit.readthedocs.io
 
-### SQL Database - Potsgresql
+### SQL Database - PostgreSQL
 
 1. Add Postgresql Container in docker-compose.yml
 
