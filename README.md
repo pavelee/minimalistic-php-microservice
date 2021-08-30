@@ -6,7 +6,7 @@
     -   [Unit Testing - PHPUnit](#unit-testing---phpunit)
     -   [SQL Database - PostgreSQL](#sql-database---postgresql)
     -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
-    -   [Add Cron Job](#add-cron-job)
+    -   [Add cron job in container](#add-cron-job-in-container)
 
 ## What is it?
 
@@ -149,7 +149,7 @@ MONGODB_URL=mongodb://mongo
 MONGODB_DB=yourdbname
 ```
 
-5. Add options with creditentials in config/packages/doctrine_mongodb.yaml
+5. Configure options in config/packages/doctrine_mongodb.yaml
 
 ```
 options:
@@ -157,7 +157,11 @@ options:
     password: '%env(resolve:MONGO_INITDB_ROOT_PASSWORD)%'
 ```
 
-### Add Cron Job
+6. Read more about MongoDB and Doctrine ODM
+* MongoDB -> https://docs.mongodb.com
+* Doctrine ODM -> https://docs.mongodb.com
+
+### Add cron job in container 
 
 1. Add cron support in build (api/Dockerfile)
 
