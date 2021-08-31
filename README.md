@@ -51,6 +51,8 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 #### Why SQL Database
 
 * Relational SQL Database will fit well mostly in any data usage scenario.
+* Strong and clear schema.
+* Optimized engine supporting joins, grouping etc.
 * It is well known among developers.
 * SQL query language is very easy to learn. It was design to be similar to natural language.
 
@@ -59,6 +61,8 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 * You have to migrate schema during development.
 * It's harder to redact big data
 * It's harder to optimize when data set begin to be huge
+* Not design to scale horizontally
+* Vertical scalling gets expensive
 
 ## Extend your microservice
 
