@@ -2,6 +2,10 @@
 
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
+-   [Choose your extra stack](#choose-your-extra-stack)
+    - SQL Database
+        - [Why SQL database](#why-sql-database)
+        - [Why NOT SQL database](#why-not-sql-database)
 -   [Extend your microservice](#extend-your-microservice)
     -   [Unit Testing](#unit-testing)
         - [PHPUnit](#phpunit)
@@ -39,6 +43,22 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 -   PHP8 & nginx
 -   Symfony 5.3
 -   Docker
+
+## Choose your extra stack
+
+### SQL Database
+
+#### Why SQL Database
+
+* Relational SQL Database will fit well mostly in any data usage scenario.
+* It is well known among developers.
+* SQL query language is very easy to learn. It was design to be similar to natural language.
+
+#### Why NOT SQL Database
+
+* You have to migrate schema during development.
+* It's harder to redact big data
+* It's harder to optimize when data set begin to be huge
 
 ## Extend your microservice
 
