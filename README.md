@@ -17,8 +17,18 @@
             - Test your connection in container
             - Configure connection in api/config/packages/doctrine.yaml
             - Read more about Postgresql, Doctrine and Doctrine Bundle
-    -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
-    -   [Add cron job in container](#add-cron-job-in-container)
+    -   [NoSQL Database](#nosql-database)
+        - [MongoDB](#mongodb)
+            - Add MongoDB Container in docker-compose.yml
+            - Add MongoDB Enviorment variables in api/.env
+            - Add dependencies in api/Dockerfile
+            - Install MongoDB Bundle in Symfony
+            - Fix Enviorment Variables in api/.env
+            - Configure options in config/packages/doctrine_mongodb.yaml
+            - Read more about MongoDB and Doctrine ODM
+    -   [Run cron job in container](#run-cron-job-in-container)
+        - Add cron support in build (api/Dockerfile)
+        - Add your cron jobs in api/docker/php/docker-entrypoint.sh
 
 ## What is it?
 
@@ -122,9 +132,11 @@ Read more about Postgresql, Doctrine and Doctrine Bundle
 * Doctrine -> https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/index.html
 * Doctrine Bundle in Symfony -> https://symfony.com/doc/current/doctrine.html
 
-### NoSQL Database - MongoDB
+### NoSQL Database
 
-1. Add MongoDB Container in docker-compose.yml
+#### MongoDB
+
+Add MongoDB Container in docker-compose.yml
 
 ```
 services:
@@ -139,33 +151,33 @@ volumes:
     mongo-db-data: {}
 ```
 
-2. Add MongoDB Enviorment variables in api/.env
+Add MongoDB Enviorment variables in api/.env
 
 ```
 MONGO_INITDB_ROOT_USERNAME=sfsf213fsafa
 MONGO_INITDB_ROOT_PASSWORD=fsafasr121asd
 ```
 
-2. Add dependencies in api/Dockerfile
+Add dependencies in api/Dockerfile
 
 ```
 RUN apk add openssl-dev && pecl install mongodb && docker-php-ext-enable mongodb
 ```
 
-3. Install MongoDB Bundle in Symfony
+Install MongoDB Bundle in Symfony
 
 ```
 docker exec php composer require doctrine/mongodb-odm-bundle
 ```
 
-4. Fix Enviorment Variables in api/.env
+Fix Enviorment Variables in api/.env
 
 ```
 MONGODB_URL=mongodb://mongo
 MONGODB_DB=yourdbname
 ```
 
-5. Configure options in config/packages/doctrine_mongodb.yaml
+Configure options in config/packages/doctrine_mongodb.yaml
 
 ```
 options:
@@ -173,13 +185,13 @@ options:
     password: '%env(resolve:MONGO_INITDB_ROOT_PASSWORD)%'
 ```
 
-6. Read more about MongoDB and Doctrine ODM
+Read more about MongoDB and Doctrine ODM
 * MongoDB -> https://docs.mongodb.com
 * Doctrine ODM -> https://docs.mongodb.com
 
-### Add cron job in container 
+### Run cron job in container 
 
-1. Add cron support in build (api/Dockerfile)
+Add cron support in build (api/Dockerfile)
 
 ```
 RUN apk add dcron libcap; \
@@ -189,7 +201,7 @@ RUN apk add dcron libcap; \
 	crontab /etc/crontabs/www-data;
 ```
 
-2. Add your cron jobs in api/docker/php/docker-entrypoint.sh
+Add your cron jobs in api/docker/php/docker-entrypoint.sh
 
 ```
   echo '*  *  *  *  *    /srv/api/bin/console app:your:command' >> /etc/crontabs/www-data
