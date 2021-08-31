@@ -3,7 +3,11 @@
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
 -   [Extend your microservice](#extend-your-microservice)
-    -   [Unit Testing - PHPUnit](#unit-testing---phpunit)
+    -   [Unit Testing](#unit-testing)
+        - [PHPUnit](#phpunit)
+            - Install dependencies
+            - Start using PHPUnit!
+            - Read more about testing
     -   [SQL Database - PostgreSQL](#sql-database---postgresql)
     -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
     -   [Add cron job in container](#add-cron-job-in-container)
@@ -20,21 +24,23 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 
 ## Extend your microservice
 
-### Unit Testing - PHPUnit
+### Unit Testing
 
-1. Install PHPUnit and symfony dependencies
+#### PHPUnit
 
-```
-composer require --dev phpunit/phpunit symfony/test-pack
-```
-
-2. Start using PHPUnit! Just run:
+Install dependencies
 
 ```
-./vendor/bin/phpunit
+docker exec php bin/console composer require --dev phpunit/phpunit symfony/test-pack
 ```
 
-3. Read more about testing:
+Start using PHPUnit!
+
+```
+docker exec php bin/console ./vendor/bin/phpunit
+```
+
+Read more about testing
 
 -   Symfony -> https://symfony.com/doc/current/testing.html
 -   PHPUnit -> https://phpunit.readthedocs.io
