@@ -8,7 +8,15 @@
             - Install dependencies
             - Start using PHPUnit!
             - Read more about testing
-    -   [SQL Database - PostgreSQL](#sql-database---postgresql)
+    -   [SQL Database - PostgreSQL](#sql-database)
+        - [PostgreSQL](#postgresql)
+            - Add Postgresql Container in docker-compose.yml
+            - Add Postgresql Enviorment variables in api/.env
+            - Add dependencies in api/Dockerfile
+            - Install Doctrine Bundle in Symfony
+            - Test your connection in container
+            - Configure connection in api/config/packages/doctrine.yaml
+            - Read more about Postgresql, Doctrine and Doctrine Bundle
     -   [NoSQL Database - MongoDB](#nosql-database---mongodb)
     -   [Add cron job in container](#add-cron-job-in-container)
 
@@ -45,9 +53,11 @@ Read more about testing
 -   Symfony -> https://symfony.com/doc/current/testing.html
 -   PHPUnit -> https://phpunit.readthedocs.io
 
-### SQL Database - PostgreSQL
+### SQL Database
 
-1. Add Postgresql Container in docker-compose.yml
+#### PostgreSQL
+
+Add Postgresql Container in docker-compose.yml
 
 ```
 services:
@@ -62,7 +72,7 @@ volumes:
     pg-db-data: {}
 ```
 
-2. Add Postgresql Enviorment variables in api/.env
+Add Postgresql Enviorment variables in api/.env
 
 ```
 POSTGRES_PASSWORD=password
@@ -74,20 +84,20 @@ POSTGRES_CHARSET=UTF8
 POSTGRES_HOST=postgresql
 ```
 
-3. Add dependencies in api/Dockerfile
+Add dependencies in api/Dockerfile
 
 ```
 RUN apk add postgresql-dev; \
 	docker-php-ext-install -j$(nproc) pdo_pgsql
 ```
 
-4. Install Doctrine Bundle in Symfony
+Install Doctrine Bundle in Symfony
 
 ```
 docker exec php composer require symfony/orm-pack
 ```
 
-5. Configure connection in api/config/packages/doctrine.yaml
+Configure connection in api/config/packages/doctrine.yaml
 
 ```
 doctrine:
@@ -101,13 +111,13 @@ doctrine:
         driver: 'pdo_pgsql'
 ```
 
-6. Test your connection in container
+Test your connection in container
 
 ```
 docker exec php bin/console dbal:run-sql "SELECT 1"
 ```
 
-7. Read more about Postgresql, Doctrine and Doctrine Bundle:
+Read more about Postgresql, Doctrine and Doctrine Bundle
 * Postgresql -> https://www.postgresql.org
 * Doctrine -> https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/index.html
 * Doctrine Bundle in Symfony -> https://symfony.com/doc/current/doctrine.html
