@@ -8,7 +8,7 @@
             - Install dependencies
             - Start using PHPUnit!
             - Read more about testing
-    -   [SQL Database - PostgreSQL](#sql-database)
+    -   [SQL Database](#sql-database)
         - [PostgreSQL](#postgresql)
             - Add Postgresql Container in docker-compose.yml
             - Add Postgresql Enviorment variables in api/.env
