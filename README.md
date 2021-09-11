@@ -7,6 +7,8 @@
         - [Why SQL database](#why-sql-database)
         - [Why NOT SQL database](#why-not-sql-database)
 -   [Extend your microservice](#extend-your-microservice)
+    - [Increase productivity](#increase-productivity)
+        - [Use Maker Bundle](#use-maker-bundle)
     -   [Unit Testing](#unit-testing)
         - [PHPUnit](#phpunit)
             - Install dependencies
@@ -66,6 +68,28 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 
 ## Extend your microservice
 
+### Increase productivity
+
+#### Use Maker Bundle
+
+Maker bundle generates code to speed up your development process
+
+Install dependencies
+
+```
+docker exec php composer require --dev symfony/maker-bundle
+```
+
+Start using
+
+```
+docker exec php bin/console make
+```
+
+Read more
+
+-   https://symfony.com/bundles/SymfonyMakerBundle/current/index.html
+
 ### Unit Testing
 
 #### PHPUnit
@@ -73,7 +97,7 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 Install dependencies
 
 ```
-docker exec php bin/console composer require --dev phpunit/phpunit symfony/test-pack
+docker exec php composer require --dev phpunit/phpunit symfony/test-pack
 ```
 
 Start using PHPUnit!
