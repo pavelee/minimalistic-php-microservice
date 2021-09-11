@@ -3,38 +3,41 @@
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
 -   [Choose your extra stack](#choose-your-extra-stack)
-    - SQL Database
-        - [Why SQL database](#why-sql-database)
-        - [Why NOT SQL database](#why-not-sql-database)
+    -   SQL Database
+        -   [Why SQL database](#why-sql-database)
+        -   [Why NOT SQL database](#why-not-sql-database)
 -   [Extend your microservice](#extend-your-microservice)
-    - [Increase productivity](#increase-productivity)
-        - [Use Maker Bundle](#use-maker-bundle)
+    -   [Increase productivity](#increase-productivity)
+        -   [Use Maker Bundle](#use-maker-bundle)
+            -   Install dependencies
+            -   Start using
+            -   Read more
     -   [Unit Testing](#unit-testing)
-        - [PHPUnit](#phpunit)
-            - Install dependencies
-            - Start using PHPUnit!
-            - Read more about testing
+        -   [PHPUnit](#phpunit)
+            -   Install dependencies
+            -   Start using PHPUnit!
+            -   Read more about testing
     -   [SQL Database](#sql-database)
-        - [PostgreSQL](#postgresql)
-            - Add Postgresql Container in docker-compose.yml
-            - Add Postgresql Enviorment variables in api/.env
-            - Add dependencies in api/Dockerfile
-            - Install Doctrine Bundle in Symfony
-            - Test your connection in container
-            - Configure connection in api/config/packages/doctrine.yaml
-            - Read more about Postgresql, Doctrine and Doctrine Bundle
+        -   [PostgreSQL](#postgresql)
+            -   Add Postgresql Container in docker-compose.yml
+            -   Add Postgresql Enviorment variables in api/.env
+            -   Add dependencies in api/Dockerfile
+            -   Install Doctrine Bundle in Symfony
+            -   Test your connection in container
+            -   Configure connection in api/config/packages/doctrine.yaml
+            -   Read more about Postgresql, Doctrine and Doctrine Bundle
     -   [NoSQL Database](#nosql-database)
-        - [MongoDB](#mongodb)
-            - Add MongoDB Container in docker-compose.yml
-            - Add MongoDB Enviorment variables in api/.env
-            - Add dependencies in api/Dockerfile
-            - Install MongoDB Bundle in Symfony
-            - Fix Enviorment Variables in api/.env
-            - Configure options in config/packages/doctrine_mongodb.yaml
-            - Read more about MongoDB and Doctrine ODM
+        -   [MongoDB](#mongodb)
+            -   Add MongoDB Container in docker-compose.yml
+            -   Add MongoDB Enviorment variables in api/.env
+            -   Add dependencies in api/Dockerfile
+            -   Install MongoDB Bundle in Symfony
+            -   Fix Enviorment Variables in api/.env
+            -   Configure options in config/packages/doctrine_mongodb.yaml
+            -   Read more about MongoDB and Doctrine ODM
     -   [Run cron job in container](#run-cron-job-in-container)
-        - Add cron support in build (api/Dockerfile)
-        - Add your cron jobs in api/docker/php/docker-entrypoint.sh
+        -   Add cron support in build (api/Dockerfile)
+        -   Add your cron jobs in api/docker/php/docker-entrypoint.sh
 
 ## What is it?
 
@@ -52,19 +55,19 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 
 #### Why SQL Database
 
-* Relational SQL Database will fit well mostly in any data usage scenario.
-* Strong and clear schema.
-* Optimized engine supporting joins, grouping etc.
-* It is well known among developers.
-* SQL query language is very easy to learn. It was design to be similar to natural language.
+-   Relational SQL Database will fit well mostly in any data usage scenario.
+-   Strong and clear schema.
+-   Optimized engine supporting joins, grouping etc.
+-   It is well known among developers.
+-   SQL query language is very easy to learn. It was design to be similar to natural language.
 
 #### Why NOT SQL Database
 
-* You have to migrate schema during development.
-* It's harder to redact big data
-* It's harder to optimize when data set begin to be huge
-* Not design to scale horizontally
-* Vertical scalling gets expensive
+-   You have to migrate schema during development.
+-   It's harder to redact big data
+-   It's harder to optimize when data set begin to be huge
+-   Not design to scale horizontally
+-   Vertical scalling gets expensive
 
 ## Extend your microservice
 
@@ -176,9 +179,10 @@ docker exec php bin/console dbal:run-sql "SELECT 1"
 ```
 
 Read more about Postgresql, Doctrine and Doctrine Bundle
-* Postgresql -> https://www.postgresql.org
-* Doctrine -> https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/index.html
-* Doctrine Bundle in Symfony -> https://symfony.com/doc/current/doctrine.html
+
+-   Postgresql -> https://www.postgresql.org
+-   Doctrine -> https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/index.html
+-   Doctrine Bundle in Symfony -> https://symfony.com/doc/current/doctrine.html
 
 ### NoSQL Database
 
@@ -234,10 +238,11 @@ options:
 ```
 
 Read more about MongoDB and Doctrine ODM
-* MongoDB -> https://docs.mongodb.com
-* Doctrine ODM -> https://docs.mongodb.com
 
-### Run cron job in container 
+-   MongoDB -> https://docs.mongodb.com
+-   Doctrine ODM -> https://docs.mongodb.com
+
+### Run cron job in container
 
 Add cron support in build (api/Dockerfile)
 
