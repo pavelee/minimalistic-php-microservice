@@ -46,11 +46,13 @@ RUN set -eux; \
 	docker-php-ext-enable \
 		apcu \
 		opcache \
+	; \
+	apk del .build-deps \
 	;
 
 WORKDIR /srv
 
-ARG APP_ENV=prod
+ARG APP_ENV=dev
 
 ARG USER_ID=1000
 RUN apk --no-cache add shadow && usermod -u ${USER_ID} www-data
@@ -84,6 +86,8 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 FROM php AS php_prod
+
+ARG APP_ENV=prod
 
 RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --optimize-autoloader
 
