@@ -48,6 +48,28 @@ RUN set -eux; \
 		opcache \
 	;
 
+WORKDIR /srv
+
+ARG APP_ENV=prod
+
+ARG USER_ID=1000
+RUN apk --no-cache add shadow && usermod -u ${USER_ID} www-data
+
+# copy only specifically what we need
+COPY composer.json composer.lock symfony.lock ./
+COPY .env ./
+COPY bin bin
+COPY config config/
+COPY public public/
+COPY src src/
+
+RUN chown -R www-data:www-data .
+RUN chown -R www-data:www-data /usr/local/etc/php
+RUN chmod -R +x bin
+VOLUME /srv/var
+
+COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
+
 COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
 
@@ -56,32 +78,7 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
-WORKDIR /srv
-
-ARG APP_ENV=prod
-
-COPY composer.json composer.lock symfony.lock ./
-
-ARG USER_ID=1000
-RUN apk --no-cache add shadow && usermod -u ${USER_ID} www-data
-
-# copy only specifically what we need
-COPY .env ./
-COPY bin bin/
-COPY config config/
-COPY public public/
-COPY src src/
-
-RUN mkdir -p var vendor
-RUN chown -R www-data:www-data .
-RUN chown -R www-data:www-data /usr/local/etc/php
-RUN chmod -R +x bin
-VOLUME /srv/var
-
 USER www-data
-
-COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
-RUN composer install
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
