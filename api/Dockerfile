@@ -6,18 +6,14 @@ FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS php
 
 #timezone
 ENV TZ=Europe/Warsaw
-RUN apk add --no-cache tzdata
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini
+RUN apk add --no-cache tzdata; \
+	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone; \
+	printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini;
 
 
 # persistent / runtime deps
 RUN apk add --no-cache \
-		acl \
 		fcgi \
-		file \
-		gettext \
-		git \
 		gnu-libiconv \
 	;
 
@@ -47,8 +43,15 @@ RUN set -eux; \
 		apcu \
 		opcache \
 	; \
-	apk del .build-deps \
-	;
+	runDeps="$( \
+		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+			| tr ',' '\n' \
+			| sort -u \
+			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	)"; \
+	apk add --no-cache --virtual .api-phpexts-rundeps $runDeps; \
+	\
+	apk del .build-deps
 
 WORKDIR /srv
 
