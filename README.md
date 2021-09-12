@@ -1,4 +1,4 @@
-# Simple PHP Microservice
+# Minimalistic PHP Microservice
 
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
