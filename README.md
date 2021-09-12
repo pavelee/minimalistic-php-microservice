@@ -2,6 +2,10 @@
 
 -   [What is it?](#what-is-it)
 -   [Project Stack](#project-stack)
+-   [Run Project](#run-project)
+    -   Clone Repository
+    -   Run using Docker
+    -   Check your microservice in browser
 -   [Choose your extra stack](#choose-your-extra-stack)
     -   SQL Database
         -   [Why SQL database](#why-sql-database)
@@ -48,6 +52,24 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 -   PHP8 & nginx
 -   Symfony 5.3
 -   Docker
+
+## Run Project
+
+Clone Repository
+
+```
+git clone https://github.com/pavelee/minimalistic-php-microservice.git && cd minimalistic-php-microservice
+```
+
+Run using Docker
+
+```
+docker-compose up -d
+```
+
+Check your microservice in browser
+
+Go to http://localhost:3001
 
 ## Choose your extra stack
 
