@@ -67,11 +67,13 @@ COPY bin bin
 COPY config config/
 COPY public public/
 COPY src src/
+COPY var var/
+
+VOLUME /srv/var
 
 RUN chown -R www-data:www-data .
 RUN chown -R www-data:www-data /usr/local/etc/php
 RUN chmod -R +x bin
-VOLUME /srv/var
 
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
