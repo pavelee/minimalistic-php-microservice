@@ -11,6 +11,10 @@
         -   [Why SQL database](#why-sql-database)
         -   [Why NOT SQL database](#why-not-sql-database)
 -   [Extend your microservice](#extend-your-microservice)
+    -   [Debug your code](#debug-your-code)
+        -   [Profiler](#profiler)
+            -   Install profiler
+            -   Read more
     -   [Increase productivity](#increase-productivity)
         -   [Use Maker Bundle](#use-maker-bundle)
             -   Install dependencies
@@ -99,13 +103,13 @@ Go to http://localhost:3001
 
 Profiler let you deeply analyze your request
 
-#### install profiler
+#### Install profiler
 
 ```
 docker exec php composer require --dev symfony/profiler-pack
 ```
 
-#### read more
+#### Read more
 
 -   https://symfony.com/doc/current/profiler.html
 
