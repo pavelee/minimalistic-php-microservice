@@ -93,6 +93,22 @@ Go to http://localhost:3001
 
 ## Extend your microservice
 
+### Debug your code
+
+#### Profiler
+
+Profiler let you deeply analyze your request
+
+#### install profiler
+
+```
+docker exec php composer require --dev symfony/profiler-pack
+```
+
+#### read more
+
+-   https://symfony.com/doc/current/profiler.html
+
 ### Increase productivity
 
 #### Use Maker Bundle
