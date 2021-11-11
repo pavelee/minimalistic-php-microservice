@@ -97,6 +97,26 @@ Go to http://localhost:3001
 
 ## Extend your microservice
 
+### Send an email
+
+#### Install mailer package from Symfony
+
+```
+docker exec php composer require symfony/mailer
+```
+
+### Log in app
+
+#### Install monolog
+
+```
+docker exec php composer require symfony/monolog-bundle
+```
+
+#### Read more
+
+-   https://symfony.com/doc/current/logging.html
+
 ### Debug your code
 
 #### Profiler
