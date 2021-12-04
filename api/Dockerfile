@@ -5,44 +5,23 @@ ARG ALPINE_VERSION=3.13
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS php
 
 #timezone
-ENV TZ=Europe/Warsaw
-RUN apk add --no-cache tzdata; \
-	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone; \
-	printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini;
-
-
-# persistent / runtime deps
-RUN apk add --no-cache \
-		fcgi \
-		gnu-libiconv \
-	;
+RUN	apk add --no-cache tzdata \
+	ln -snf /usr/share/zoneinfo/Europe/Warsaw/etc/localtime && echo Europe/Warsaw > /etc/timezone \
+	printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini
 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
 # see https://github.com/docker-library/php/issues/240#issuecomment-763112749
+RUN apk add --no-cache gnu-libiconv fcgi
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
-ARG APCU_VERSION=5.1.20
+ARG APCU_VERSION=5.1.21
 RUN set -eux; \
-	apk add --no-cache --virtual .build-deps \
-		$PHPIZE_DEPS \
-		icu-dev \
-		libzip-dev \
-		zlib-dev \
-	; \
-	\
+	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev libzip-dev zlib-dev; \
 	docker-php-ext-configure zip; \
-	docker-php-ext-install -j$(nproc) \
-		intl \
-		zip \
-	; \
-	pecl install \
-		apcu-${APCU_VERSION} \
-	; \
+	docker-php-ext-install -j$(nproc) intl zip; \
+	pecl install apcu-${APCU_VERSION}; \
 	pecl clear-cache; \
-	docker-php-ext-enable \
-		apcu \
-		opcache \
-	; \
+	docker-php-ext-enable apcu opcache; \
 	runDeps="$( \
 		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
 			| tr ',' '\n' \
@@ -71,9 +50,9 @@ COPY var var/
 
 VOLUME /srv/var
 
-RUN chown -R www-data:www-data .
-RUN chown -R www-data:www-data /usr/local/etc/php
-RUN chmod -R +x bin
+RUN chown -R www-data:www-data .; \
+	chown -R www-data:www-data /usr/local/etc/php; \
+	chmod -R +x bin;
 
 COPY --from=composer:2.1 /usr/bin/composer /usr/bin/composer
 
