@@ -2,12 +2,16 @@ ARG PHP_VERSION=8.0
 ARG NGINX_VERSION=1.17
 ARG ALPINE_VERSION=3.13
 
+
 FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS php
 
+ENV LANG=pl_PL.UTF-8 \
+    LANGUAGE=pl_PL.UTF-8
+
 #timezone
-RUN	apk add --no-cache tzdata \
-	ln -snf /usr/share/zoneinfo/Europe/Warsaw/etc/localtime && echo Europe/Warsaw > /etc/timezone \
-	printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini
+RUN	apk add --no-cache tzdata; \
+	ln -snf /usr/share/zoneinfo/Europe/Warsaw/etc/localtime && echo Europe/Warsaw > /etc/timezone; \
+	printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini;
 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
 # see https://github.com/docker-library/php/issues/240#issuecomment-763112749
