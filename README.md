@@ -20,6 +20,9 @@
             -   Install dependencies
             -   Start using
             -   Read more
+        -   [Use Api Platform](#use-api-platform)
+            -   Install dependencies
+            -   Read more
     -   [Unit Testing](#unit-testing)
         -   [PHPUnit](#phpunit)
             -   Install dependencies
@@ -154,6 +157,18 @@ docker exec php bin/console make
 Read more
 
 -   https://symfony.com/bundles/SymfonyMakerBundle/current/index.html
+
+#### Use Api Platform
+
+Install dependencies
+
+```
+docker exec php composer require api
+```
+
+Read more 
+
+- https://api-platform.com/docs
 
 ### Unit Testing
 
