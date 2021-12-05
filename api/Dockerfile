@@ -13,9 +13,10 @@ RUN	apk add --no-cache tzdata; \
 	ln -snf /usr/share/zoneinfo/Europe/Warsaw/etc/localtime && echo Europe/Warsaw > /etc/timezone; \
 	printf '[PHP]\ndate.timezone = "Europe/Warsaw"\n' > /$PHP_INI_DIR/conf.d/tzone.ini;
 
+# persistent packages 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
 # see https://github.com/docker-library/php/issues/240#issuecomment-763112749
-RUN apk add --no-cache gnu-libiconv fcgi
+RUN apk add --no-cache gnu-libiconv fcgi openssh sshpass
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 ARG APCU_VERSION=5.1.21
