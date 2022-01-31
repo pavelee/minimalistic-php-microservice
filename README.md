@@ -56,7 +56,7 @@ This is minimalistic microservice based on PHP. The idea is to fit any requiremn
 
 ## Simple Project Stack
 
--   PHP8.1 & nginx
+-   PHP8.1
 -   Symfony 6
 -   Docker
 
