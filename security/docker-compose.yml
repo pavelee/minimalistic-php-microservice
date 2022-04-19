@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+    php:
+        build:
+            context: ./api
+            target: php
+            args:
+                USER_ID: 1000
+        healthcheck:
+            interval: 10s
+            timeout: 3s
+            retries: 3
+            start_period: 30s
+        volumes:
+            - ./api:/srv:rw,cached
+            - ./api/docker/php/conf.d/dev.ini/:/usr/local/etc/php/conf.d/php.ini
+
+    nginx:
+        build:
+            context: ./api
+            target: nginx
+        depends_on:
+            - php
+        volumes:
+            - ./api/public:/srv/public:ro
+        ports:
+            - target: 80
+              published: 3000-4000
+              protocol: tcp
